@@ -4,6 +4,10 @@
  */
 package javaapplication9;
 import java.sql.*;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author dJangg0
@@ -17,6 +21,7 @@ public class transact_history extends javax.swing.JFrame {
     public transact_history() {
         initComponents();
         createConnection();
+        displayData();
     }
 
     /**
@@ -29,11 +34,11 @@ public class transact_history extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -43,8 +48,16 @@ public class transact_history extends javax.swing.JFrame {
             new String [] {
                 "Name", "Quantity", "Store Name"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,7 +110,7 @@ public class transact_history extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 
 public void createConnection(){
@@ -114,4 +127,29 @@ public void createConnection(){
             
         }
     }
+public void displayData(){
+    int CC;
+        
+        try {
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM transaction");
+            ResultSet rs = pst.executeQuery();
+            ResultSetMetaData RSMD = (ResultSetMetaData) rs.getMetaData();
+            CC = RSMD.getColumnCount();
+            DefaultTableModel DFT = (DefaultTableModel) table.getModel();
+            DFT.setRowCount(0);
+            
+            while(rs.next()){
+                Vector v2 = new Vector();
+                
+                for(int i = 1; i <= CC; i++){
+                v2.add(rs.getString("Name"));
+                v2.add(rs.getString("Quantity"));
+                v2.add(rs.getString("Store_Name"));
+            }
+                DFT.addRow(v2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(inventory_system.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
 }

@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author dJangg0
@@ -23,19 +24,21 @@ public class inventory_system extends javax.swing.JFrame {
     /**
      * Creates new form inventory_system
      */
-    String txtName[] = new String [100]; 
-    String txtQuantity[] = new String [100];
-    String txtPrice[] = new String [100];
-   
+    String txtName[] = new String[100];
+    String txtQuantity[] = new String[100];
+    String txtPrice[] = new String[100];
+
     PreparedStatement pst;
     ResultSet rs;
     Connection con;
+
     public inventory_system() {
         initComponents();
         createConnection();
         displayTable();
+        setLocationRelativeTo(null); // center the frame
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,7 +50,7 @@ public class inventory_system extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         name = new javax.swing.JLabel();
@@ -59,7 +62,7 @@ public class inventory_system extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -70,7 +73,7 @@ public class inventory_system extends javax.swing.JFrame {
                 "Name", "Quantity", "Price"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
         addButton.setText("ADD");
         addButton.addActionListener(new java.awt.event.ActionListener() {
@@ -120,37 +123,35 @@ public class inventory_system extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jText3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jText2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(64, 64, 64)
-                                .addComponent(jButton2)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jText2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(62, 62, 62)
+                                        .addComponent(jButton2)))
                                 .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 771, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(name)
-                            .addComponent(jText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(addButton))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(quantity)
-                            .addComponent(jText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jText3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(price))
-                        .addGap(59, 59, 59))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(name)
+                    .addComponent(jText1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addButton))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(quantity)
+                    .addComponent(jText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jText3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(price))
+                .addGap(59, 59, 59))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -170,38 +171,42 @@ public class inventory_system extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-                   try {
-            //enableTextfield(true);     // TODO add your handling code here:
-            String Name = jText1.getText(),
-                   Quantity = jText2.getText(),
-                   Price = jText3.getText();
-                   
-            //sum quanttiy and price
-                   //int qty = Integer.parseInt(Quantity);
-                   //int prc = Integer.parseInt(Price);                  
-                   //int total_price = qty*prc;
-            
-            pst = con.prepareStatement("INSERT INTO inventory(Name,Quantity,Price) VALUES (?,?,?)");
-            pst.setString(1, Name);
-            pst.setString(2, Quantity);
-            pst.setString(3, Price);
-            //pst.setInt(4, total_price);
-            int k = pst.executeUpdate();
-            
-            if(k == 1 ){
-                JOptionPane.showMessageDialog(this, "Record Added Successfully!");
-                jText1.setText("");
-                jText2.setText("");
-                jText3.setText("");
-                displayTable();
-            }else{
-                JOptionPane.showMessageDialog(this, "Record Failed!");
-            }
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(inventory_system.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
+        String Name = jText1.getText(),
+                Quantity = jText2.getText(),
+                Price = jText3.getText();
+        if(Price.trim().equals("")){
+            Price = "0";
+        }
+        if (!checkDuplicate(Name, Integer.parseInt(Quantity), Integer.parseInt(Price))) {
+            try {
+                //enableTextfield(true);     // TODO add your handling code here:
+
+                //sum quanttiy and price
+                //int qty = Integer.parseInt(Quantity);
+                //int prc = Integer.parseInt(Price);                  
+                //int total_price = qty*prc;
+                pst = con.prepareStatement("INSERT INTO inventory(Name,Quantity,Price) VALUES (?,?,?)");
+                pst.setString(1, Name);
+                pst.setString(2, Quantity);
+                pst.setString(3, Price);
+                //pst.setInt(4, total_price);
+                int k = pst.executeUpdate();
+
+                if (k == 1) {
+                    JOptionPane.showMessageDialog(this, "Record Added Successfully!");
+                    jText1.setText("");
+                    jText2.setText("");
+                    jText3.setText("");
+                    displayTable();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Record Failed!");
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(inventory_system.class.getName()).log(Level.SEVERE, null, ex);
+            }        // TODO add your handling code here:
+        }
+        displayTable();
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void jText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jText1ActionPerformed
@@ -209,7 +214,7 @@ public class inventory_system extends javax.swing.JFrame {
     }//GEN-LAST:event_jText1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        new transact_history().show();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -252,23 +257,23 @@ public class inventory_system extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jText1;
     private javax.swing.JTextField jText2;
     private javax.swing.JTextField jText3;
     private javax.swing.JLabel name;
     private javax.swing.JLabel price;
     private javax.swing.JLabel quantity;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 
-public void createConnection(){
+    public void createConnection() {
         String url = "jdbc:mysql://localhost:3306/angelina_bakeshop";
         String username = "root";
         String password = "";
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url, username, password);           
+            con = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(inventory_system.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -276,46 +281,66 @@ public void createConnection(){
         }
     }
 
- public void displayTable(){
-     
-     int CC;
-        
+    public void displayTable() {
+        int CC;
+
         try {
             pst = con.prepareStatement("SELECT * FROM inventory");
             rs = pst.executeQuery();
             ResultSetMetaData RSMD = (ResultSetMetaData) rs.getMetaData();
             CC = RSMD.getColumnCount();
-            DefaultTableModel DFT = (DefaultTableModel) jTable1.getModel();
+            DefaultTableModel DFT = (DefaultTableModel) table.getModel();
             DFT.setRowCount(0);
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Vector v2 = new Vector();
-                
-                for(int i = 1; i <= CC; i++){
-                v2.add(rs.getString("Name"));
-                v2.add(rs.getString("Quantity"));
-                v2.add(rs.getString("Price"));
-                //v2.add(rs.getString("Total"));
-               
-            }
+
+                for (int i = 1; i <= CC; i++) {
+                    v2.add(rs.getString("Name"));
+                    v2.add(rs.getString("Quantity"));
+                    v2.add(rs.getString("Price"));
+                }
                 DFT.addRow(v2);
             }
         } catch (SQLException ex) {
             Logger.getLogger(inventory_system.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-         
-}
-        
-        private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {                                     
+        }
+    }
+
+    public boolean checkDuplicate(String name, int quantity, int price) {
+        boolean flag = false;
+        try {
+            pst = con.prepareStatement("SELECT * FROM inventory");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                if (rs.getString("Name").toLowerCase().equals(name)) {
+                    flag = true;
+                }
+            }
+            if (flag) {
+                pst = con.prepareStatement("UPDATE inventory SET Quantity = Quantity + " + quantity + ", Price = Price + " + price +" WHERE Name = '" + name + "'");
+                pst.executeUpdate();
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(inventory_system.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-        DefaultTableModel DFT = (DefaultTableModel) jTable1.getModel();
-        int selectedRow = jTable1.getSelectedRow();
-        
+        DefaultTableModel DFT = (DefaultTableModel) table.getModel();
+        int selectedRow = table.getSelectedRow();
+
         jText1.setText(DFT.getValueAt(selectedRow, 0).toString());
         jText2.setText(DFT.getValueAt(selectedRow, 1).toString());
-        jText3.setText(DFT.getValueAt(selectedRow, 2).toString());        
-    }  
-        
+        jText3.setText(DFT.getValueAt(selectedRow, 2).toString());
+    }
+
 //         public void addRecords(int addRec)
 //    {
 //     txtName[addRec] = jText1.getText();
